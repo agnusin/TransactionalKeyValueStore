@@ -1,19 +1,16 @@
 package ru.agnusin.commands
 
 import ru.agnusin.store.Store
-import java.security.InvalidParameterException
 
 class CountCommand: Command<Int> {
     override val label: String
         get() = "COUNT"
 
-    override fun getAction(str: String): Action<Int> {
-        val value = splitArguments(str)
-            .takeIf { it.size == 1 }
-            ?.first()
-            ?: throw InvalidParameterException("wrong number of arguments")
+    override fun getAction(vararg args: String): Action<Int> {
+        checkArguments(args.size == 1)
 
         return object : Action<Int> {
+            val value = args[0]
 
             override fun invoke(store: Store): Action.Result<Int> {
                 val count = store.values().count { it == value }

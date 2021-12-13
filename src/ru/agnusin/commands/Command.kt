@@ -1,11 +1,14 @@
 package ru.agnusin.commands
 
+import java.security.InvalidParameterException
+
 interface Command<out T> {
     val label: String
 
-    @Throws(IllegalArgumentException::class)
-    fun getAction(str: String): Action<T>
+    @Throws(InvalidParameterException::class)
+    fun getAction(vararg args: String): Action<T>
 
-    fun splitArguments(str: String): List<String> =
-        str.split(" ")
+    fun checkArguments(check: Boolean) {
+        if (!check) throw IllegalArgumentException("wrong arguments")
+    }
 }

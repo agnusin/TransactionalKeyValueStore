@@ -1,19 +1,17 @@
 package ru.agnusin.commands
 
 import ru.agnusin.store.Store
-import java.security.InvalidParameterException
 
 class DeleteCommand : Command<Unit> {
     override val label: String
         get() = "DELETE"
 
-    override fun getAction(str: String): Action<Unit> {
-        val key = splitArguments(str)
-            .takeIf { it.size == 1 }
-            ?.first()
-            ?: throw InvalidParameterException("wrong number of arguments")
+    override fun getAction(vararg args: String): Action<Unit> {
+        checkArguments(args.size == 1)
 
         return object : Action<Unit> {
+            val key = args[0]
+
             override fun invoke(store: Store): Action.Result<Unit> {
                 return store.remove(key)
                     ?.let { Action.Result.Success(Unit) }

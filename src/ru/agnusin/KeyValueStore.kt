@@ -30,14 +30,12 @@ class KeyValueStore(
 ) {
 
     fun interpret(str: String): String {
-        val commandAndArguments = str.split(" ", limit = 2)
-        if (commandAndArguments.isEmpty()) return ""
+        val expression = parse(str) ?: return ""
 
-        for (com in commandSet) {
-            if (com.label == commandAndArguments[0]) {
+        for (command in commandSet) {
+            if (command.label == expression.commandLabel) {
                 return try {
-                    val arguments = commandAndArguments.takeIf { it.size == 2 }?.get(1) ?: ""
-                    val action = com.getAction(arguments)
+                    val action = command.getAction(*expression.args)
                     handleAction(action)
                 } catch (e: IllegalArgumentException) {
                     e.message!!
@@ -46,6 +44,16 @@ class KeyValueStore(
         }
 
         return "not supported command"
+    }
+
+    private fun parse(str: String): Expression? {
+        val commandAndArguments = str.split(" ", limit = 2)
+        if (commandAndArguments.isEmpty()) return null
+
+        return if (commandAndArguments.size > 1) {
+            val args = commandAndArguments[1].split(" ").filter { it.isNotBlank() }.toTypedArray()
+            Expression(commandAndArguments[0], args)
+        } else Expression(commandAndArguments[0], emptyArray())
     }
 
     private fun handleAction(action: Action<*>): String {
@@ -59,6 +67,11 @@ class KeyValueStore(
         }
         return ""
     }
+
+    data class Expression(
+        val commandLabel: String,
+        val args: Array<String>
+    )
 }
 
 typealias CommandSet = Set<Command<*>>

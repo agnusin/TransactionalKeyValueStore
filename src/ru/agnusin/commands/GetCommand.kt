@@ -1,19 +1,17 @@
 package ru.agnusin.commands
 
 import ru.agnusin.store.Store
-import java.security.InvalidParameterException
 
 class GetCommand : Command<String> {
     override val label: String
         get() = "GET"
 
-    override fun getAction(str: String): Action<String> {
-        val key = splitArguments(str)
-            .takeIf { it.size == 1 }
-            ?.first()
-            ?: throw InvalidParameterException("wrong number of arguments")
+    override fun getAction(vararg args: String): Action<String> {
+        checkArguments(args.size == 1)
 
         return object : Action<String> {
+            val key = args[0]
+
             override fun invoke(store: Store): Action.Result<String> {
                 return store.get(key)
                     ?.let { v ->
