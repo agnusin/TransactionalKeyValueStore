@@ -15,7 +15,7 @@ class SetCommand: Command<Unit> {
 
         return object : Action<Unit> {
             override fun invoke(store: Store): Action.Result<Unit> {
-                store[keyValue.first] = keyValue.second
+                store.put(keyValue.first, keyValue.second)
                 return Action.Result.Success(Unit)
             }
         }

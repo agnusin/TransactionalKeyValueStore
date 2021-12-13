@@ -3,7 +3,7 @@ package ru.agnusin.commands
 import ru.agnusin.store.Store
 import java.security.InvalidParameterException
 
-class CountCommand : Command<Int> {
+class CountCommand: Command<Int> {
     override val label: String
         get() = "COUNT"
 
@@ -14,8 +14,9 @@ class CountCommand : Command<Int> {
             ?: throw InvalidParameterException("wrong number of arguments")
 
         return object : Action<Int> {
+
             override fun invoke(store: Store): Action.Result<Int> {
-                val count = store.values.count { it == value }
+                val count = store.values().count { it == value }
                 return Action.Result.Success(count)
             }
         }

@@ -15,7 +15,7 @@ class GetCommand : Command<String> {
 
         return object : Action<String> {
             override fun invoke(store: Store): Action.Result<String> {
-                return store[key]
+                return store.get(key)
                     ?.let { v ->
                         Action.Result.Success(v)
                     } ?: Action.Result.Error("key not set")
