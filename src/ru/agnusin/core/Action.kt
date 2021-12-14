@@ -1,10 +1,8 @@
-package ru.agnusin.commands
+package ru.agnusin.core
 
-import ru.agnusin.store.Store
+interface Action<T, out R> {
 
-interface Action<out T> {
-
-    fun invoke(store: Store): Result<T>
+    fun exec(t: T): Result<R>
 
     sealed class Result<out T> {
         data class Success<T>(val data: T): Result<T>()

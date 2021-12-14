@@ -1,5 +1,7 @@
 package ru.agnusin.store
 
+import ru.agnusin.core.Store
+
 class HashMapStore: Store {
 
     private val map = hashMapOf<String, String>()
@@ -14,4 +16,11 @@ class HashMapStore: Store {
 
     override fun values(): List<String> = map.values.toList()
 
+    override fun copy(): Store {
+        val store = HashMapStore()
+        for (entry in map.entries) {
+            store.put(entry.key, entry.value)
+        }
+        return store
+    }
 }

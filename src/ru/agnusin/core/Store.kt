@@ -1,4 +1,4 @@
-package ru.agnusin.store
+package ru.agnusin.core
 
 interface Store {
 
@@ -9,4 +9,6 @@ interface Store {
     fun remove(k: String): String?
 
     fun values(): List<String>
+
+    fun copy(): Store
 }
