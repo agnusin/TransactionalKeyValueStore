@@ -1,25 +1,32 @@
 package ru.agnusin.store
 
-import ru.agnusin.core.Store
+import ru.agnusin.store.core.Store
 
 class HashMapStore: Store {
 
     private val map = hashMapOf<String, String>()
 
-    override fun put(k: String, v: String) {
-        map[k] = v
+    override fun put(e: Store.Entry) {
+        map[e.key] = e.value
     }
 
-    override fun get(k: String): String? = map[k]
+    override fun get(k: String): Store.Entry? {
+        return map[k]?.let { Store.Entry(k, it) }
+    }
 
-    override fun remove(k: String): String? = map.remove(k)
+    override fun remove(k: String): Store.Entry? {
+        return map.remove(k)?.let { Store.Entry(k, it) }
+    }
 
-    override fun values(): List<String> = map.values.toList()
+    override fun values(): Set<Store.Entry> {
+        return map.entries.map { Store.Entry(it.key, it.value) }.toSet()
+    }
 
     override fun copy(): Store {
         val store = HashMapStore()
         for (entry in map.entries) {
-            store.put(entry.key, entry.value)
+            val e = Store.Entry(entry.key, entry.value)
+            store.put(e)
         }
         return store
     }
