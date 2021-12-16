@@ -2,8 +2,8 @@ package ru.agnusin
 
 import ru.agnusin.store.HashMapStore
 import ru.agnusin.store.KeyValueStore
-import ru.agnusin.store.expression.ExpressionParser
-import ru.agnusin.store.expression.ExpressionTranslator
+import ru.agnusin.expression.ExpressionParser
+import ru.agnusin.expression.ExpressionTranslator
 
 
 fun main() {

@@ -1,4 +1,4 @@
-package ru.agnusin.store.expression
+package ru.agnusin.expression
 
 import ru.agnusin.store.KeyValueStore
 import ru.agnusin.store.actions.CountValuesAction

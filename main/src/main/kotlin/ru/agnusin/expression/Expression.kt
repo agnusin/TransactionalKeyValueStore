@@ -1,4 +1,4 @@
-package ru.agnusin.store.expression
+package ru.agnusin.expression
 
 data class Expression(
     val commandLabel: String,
