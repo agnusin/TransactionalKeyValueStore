@@ -6,7 +6,7 @@ class TransactionManager(
     private val changeStore: (s: Store) -> Unit
 ) {
 
-    private val stateStack = ArrayDeque<State>()
+    internal val stateStack = ArrayDeque<State>()
 
     fun beginTransaction(store: Store) {
         val state = State(store.copy())

@@ -10,7 +10,7 @@ class KeyValueStore(
     private var store: Store
 ) {
 
-    private val transactionManager = TransactionManager { s ->
+    internal val transactionManager = TransactionManager { s ->
         store = s
     }
 
