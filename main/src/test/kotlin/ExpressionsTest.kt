@@ -1,21 +1,15 @@
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.*
 import ru.agnusin.expression.ExpressionParser
 import ru.agnusin.expression.ExpressionTranslator
 import ru.agnusin.store.HashMapStore
 import ru.agnusin.store.KeyValueStore
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ExpressionsTest {
 
-    private lateinit var parser: ExpressionParser
     private lateinit var translator: ExpressionTranslator
 
-    @BeforeAll
+    @BeforeEach
     fun init() {
-        parser = ExpressionParser
         translator = ExpressionTranslator(KeyValueStore(HashMapStore()))
     }
 
@@ -135,6 +129,6 @@ class ExpressionsTest {
 
 
     private fun String.run(): String? {
-        return translator.translate(parser.parse(this))
+        return translator.translate(ExpressionParser.parse(this))
     }
 }
