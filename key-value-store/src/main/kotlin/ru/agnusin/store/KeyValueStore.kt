@@ -1,10 +1,10 @@
 package ru.agnusin.store
 
-import ru.agnusin.store.actions.ValueAction
+import ru.agnusin.store.actions.value.ValueAction
 import ru.agnusin.store.core.Action
 import ru.agnusin.store.core.Store
-import ru.agnusin.store.transactions.TransactionManager
-import ru.agnusin.store.transactions.actions.TransactionAction
+import ru.agnusin.store.core.TransactionManager
+import ru.agnusin.store.actions.transaction.TransactionAction
 
 class KeyValueStore(
     private var store: Store

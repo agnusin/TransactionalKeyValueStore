@@ -1,4 +1,4 @@
-package ru.agnusin.store.actions
+package ru.agnusin.store.actions.value
 
 import ru.agnusin.store.core.Action
 import ru.agnusin.store.core.Store

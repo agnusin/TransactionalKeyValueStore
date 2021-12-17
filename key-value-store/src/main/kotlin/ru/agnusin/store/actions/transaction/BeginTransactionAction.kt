@@ -1,7 +1,7 @@
-package ru.agnusin.store.transactions.actions
+package ru.agnusin.store.actions.transaction
 
 import ru.agnusin.store.core.Store
-import ru.agnusin.store.transactions.TransactionManager
+import ru.agnusin.store.core.TransactionManager
 
 class BeginTransactionAction(args: List<String>): TransactionAction<Unit>(args) {
 

@@ -1,6 +1,5 @@
-package ru.agnusin.store.transactions
+package ru.agnusin.store.core
 
-import ru.agnusin.store.core.Store
 import java.util.*
 
 class TransactionManager(
