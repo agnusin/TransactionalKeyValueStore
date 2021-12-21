@@ -12,8 +12,15 @@ abstract class Action<T, out R>(val args: List<String>) {
     companion object {
 
         fun <R>checkArgumentsAndRun(check: Boolean, run: () -> Result<R>): Result<R> {
-            return if (!check) Result.Error("wrong number of arguments")
-            else run()
+            return if (!check) {
+                Result.Error("wrong number of arguments")
+            } else {
+              try {
+                  run()
+              } catch (e: Exception) {
+                  Result.Error<R>("error has occurred")
+              }
+            }
         }
     }
 }

@@ -12,29 +12,31 @@ import ru.agnusin.store.actions.transaction.RollbackTransactionAction
 
 class ExpressionTranslator(
     private val keyValueStore: KeyValueStore
-){
+) {
+
+    enum class Command(val builder: (Expression) -> Action<*, *>) {
+        SET({ SetValueAction(it.args) }),
+        GET({ GetValueAction(it.args) }),
+        DELETE({ DeleteValueAction(it.args) }),
+        COUNT({ CountValuesAction(it.args) }),
+        BEGIN({ BeginTransactionAction(it.args) }),
+        COMMIT({ CommitTransactionAction(it.args) }),
+        ROLLBACK({ RollbackTransactionAction(it.args) })
+    }
 
     fun translate(exp: Expression): String? {
-        val action = when (exp.commandLabel) {
-            "SET" -> SetValueAction(exp.args)
-            "GET" -> GetValueAction(exp.args)
-            "DELETE" -> DeleteValueAction(exp.args)
-            "COUNT" -> CountValuesAction(exp.args)
-            "BEGIN" -> BeginTransactionAction(exp.args)
-            "COMMIT" -> CommitTransactionAction(exp.args)
-            "ROLLBACK" -> RollbackTransactionAction(exp.args)
-            else -> null
-        }
-
-        return if (action != null) {
+        return try {
+            val action = Command.valueOf(exp.commandLabel).builder(exp)
             keyValueStore.process(action).asString()
-        } else "unsupported operation"
+        } catch (e: IllegalArgumentException) {
+            "unsupported operation"
+        }
     }
 
     private fun <T> Action.Result<T>.asString(): String? {
         return when (this) {
             is Action.Result.Success -> {
-                return when(data) {
+                return when (data) {
                     is Unit -> null
                     else -> data.toString()
                 }
@@ -42,5 +44,4 @@ class ExpressionTranslator(
             is Action.Result.Error -> msg
         }
     }
-
 }
